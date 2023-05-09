@@ -1,0 +1,86 @@
+[
+  {
+    "label": "Fiction",
+    "value": "fiction"
+  },
+  {
+    "label": "Science Fiction",
+    "value": "sci-fi"
+  },
+  {
+    "label": "Non-fiction",
+    "value": "non-fiction"
+  },
+  {
+    "label": "Romance Novel",
+    "value": "romance novel"
+  },
+  {
+    "label": "Autobiography",
+    "value": "autobiography"
+  },
+  {
+    "label": "Historical Fiction",
+    "value": "historial fiction"
+  },
+  {
+    "label": "Board Book",
+    "value": "board book"
+  },
+  {
+    "label": "Contemporary Literature",
+    "value": "contemporary literature"
+  },
+  {
+    "label": "Biography",
+    "value": "biography"
+  },
+  {
+    "label": "Memoir",
+    "value": "memoir"
+  },
+  {
+    "label": "Self-help Book",
+    "value": "self-help book"
+  },
+  {
+    "label": "Mystery",
+    "value": "mystery"
+  },
+  {
+    "label": "Thriller",
+    "value": "thriller"
+  },
+  {
+    "label": "Chick lit",
+    "value": "chick lit"
+  },
+  {
+    "label": "Alternate History",
+    "value": "alternate history"
+  },
+  {
+    "label": "Romance",
+    "value": "romance"
+  },
+  {
+    "label": "Adventure Fiction",
+    "value": "adventure fiction"
+  },
+  {
+    "label": "Classics",
+    "value": "classics"
+  },
+  {
+    "label": "Action",
+    "value": "action"
+  },
+  {
+    "label": "Bildungsroman",
+    "value": "bildungsroman"
+  },
+  {
+    "label": "Chapter Book",
+    "value": "chapter book"
+  }
+]
