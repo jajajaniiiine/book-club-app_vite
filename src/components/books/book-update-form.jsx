@@ -4,14 +4,13 @@ import { Autocomplete, Button, Stack, TextField } from "@mui/material";
 import categories from "./categories.json";
 import BookApi from "../../sdk/books-api";
 import { useEffect, useState } from "react";
-import { Save } from "@mui/icons-material";
+import { ArrowBack, Save } from "@mui/icons-material";
 
 export const UpdateBookForm = (props) => {
-  const { data, setOpenUpdateForm, loading } = props;
+  const { data, values, setValues, onSave  } = props;
 
-  console.log(data)
+  console.log(data);
 
-  const [values, setValues] = useState();
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -19,27 +18,15 @@ export const UpdateBookForm = (props) => {
     });
   };
 
-  const handleSubmit = async (event) => {
-    console.log("values =>", values)
-    event.preventDefault();
-    // await BookApi.updateBook(data._id, values)
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       setOpenUpdateForm(false);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  };
   return (
     <>
+      <Button startIcon={<ArrowBack />} variant="outlined" size="large" href="/dashboard">Back</Button>
       <TextField
         fullWidth
         margin="normal"
         label="Title"
         name="title"
-        defaultValue={(data && data.title) ? data.title : ''}
+        defaultValue={data && data.title && data.title}
         onChange={(e) => handleChange(e)}
         // error={Boolean(formik.errors.description) && formik.touched.description}
         // onBlur={formik.handleBlur}
@@ -51,19 +38,18 @@ export const UpdateBookForm = (props) => {
         margin="normal"
         label="Book Description"
         name="description"
-        defaultValue={(data && data.description) && data.description}
+        defaultValue={data && data.description && data.description}
         onChange={(e) => handleChange(e)}
         // error={Boolean(formik.errors.description) && formik.touched.description}
         // onBlur={formik.handleBlur}
         // helperText={formik.errors.description}
       />
       <TextField
-        disabled={loading}
         fullWidth
         margin="normal"
         label="Author"
         name="author"
-        defaultValue={(data && data.author) && data.author}
+        defaultValue={data && data.author && data.author}
         InputLabelProps={{
           shrink: data && data.author ? true : false,
         }}
@@ -77,15 +63,21 @@ export const UpdateBookForm = (props) => {
         options={categories}
         getOptionLabel={(option) => option.label}
         name="category"
-        defaultValue={(data && data.category) && data.category}
+        defaultValue={data && data.category && data.category}
         // value={data && data.category ? data.category : values.category}
-        // onChange={(e, newValue) => {
-        //   if (newValue.length > 0) {
-        //     formik.setFieldValue("category", newValue);
-        //   } else {
-        //     formik.setFieldValue("category", []);
-        //   }
-        // }}
+        onChange={(e, newValue) => {
+          if (newValue.length > 0) {
+            setValues({
+              ...values,
+              category: newValue,
+            });
+          } else {
+            setValues({
+              ...values,
+              category: [],
+            });
+          }
+        }}
         // onBlur={formik.handleBlur}
         renderInput={(params) => (
           <TextField
@@ -102,7 +94,7 @@ export const UpdateBookForm = (props) => {
         margin="normal"
         label="Price"
         name="price"
-        defaultValue={(data && data.price) && data.price}
+        defaultValue={data && data.price && data.price}
         InputLabelProps={{
           shrink: data && data.price ? true : false,
         }}
@@ -115,7 +107,7 @@ export const UpdateBookForm = (props) => {
         <Button
           variant="contained"
           startIcon={<Save />}
-          onClick={(e) => handleSubmit(e)}
+          onClick={() => onSave(data.bookId)}
         >
           Save
         </Button>

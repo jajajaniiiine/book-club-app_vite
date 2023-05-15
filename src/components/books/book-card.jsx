@@ -11,12 +11,13 @@ import {
 } from "@mui/material";
 import { AddShoppingCart, Edit, Favorite } from "@mui/icons-material";
 import numeral from "numeral";
+import { Link } from "react-router-dom";
 
 export const BookCard = (props) => {
-  const { data, getSingleBook } = props;
+  const { data } = props;
 
   return (
-    <Card>
+    <Card sx={{ width: '20.8vw'}}>
       <CardMedia
         component="img"
         height="194"
@@ -32,8 +33,12 @@ export const BookCard = (props) => {
             <IconButton>
               <AddShoppingCart />
             </IconButton>
-            <IconButton onClick={() => getSingleBook(data._id)}>
-              <Edit />
+            <IconButton>
+              <Link to={{
+                pathname: `/books/edit/${data.bookId}`,
+              }}>
+                <Edit />
+              </Link>
             </IconButton>
           </Stack>
         </Box>
