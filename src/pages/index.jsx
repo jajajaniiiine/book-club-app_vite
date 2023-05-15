@@ -4,15 +4,11 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
-  DialogContent,
-  DialogTitle,
   Grid,
-  IconButton,
   Typography,
 } from "@mui/material";
 import { BookCard } from "../components/books/book-card";
-import { Add, Close } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { AddBookForm } from "../components/books/book-add-form";
 import BookApi from "../sdk/books-api";
 import { CardLoading } from "../components/loading";
@@ -26,6 +22,7 @@ const Home = () => {
     setIsLoading(true);
     await BookApi.getAllBooks()
       .then((response) => {
+        console.log('response', response)
         if (response.status === 200) {
           setDataSource(response.data);
         }
@@ -70,12 +67,12 @@ const Home = () => {
           <Box sx={{ mb: 2 }}>
             <Grid container spacing={2}>
               {dataSource.map((data) =>
-                !isLoading ? (
-                  <Grid item key={data.uuid}>
+                isLoading ? (
+                  <Grid item key={data.uuid} md={3} xs={12}>
                     <CardLoading key={data.uuid} />
                   </Grid>
                 ) : (
-                  <Grid key={data.uuid} item>
+                  <Grid key={data.uuid} item md={3} xs={12}>
                     <BookCard data={data} />
                   </Grid>
                 )

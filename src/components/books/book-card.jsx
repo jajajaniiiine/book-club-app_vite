@@ -17,7 +17,7 @@ export const BookCard = (props) => {
   const { data } = props;
 
   return (
-    <Card sx={{ width: '20.8vw'}}>
+    <Card sx={{ height: '52.5vh'}}>
       <CardMedia
         component="img"
         height="194"
@@ -62,7 +62,7 @@ export const BookCard = (props) => {
           Category:
           {data &&
             data.category.map((category, index) => (
-              <Chip key={index} label={category.label} />
+              <Chip key={index} label={category.label ? category.label : category } />
             ))}
         </Typography>
         <Typography sx={{ fontSize: 14 }}>
