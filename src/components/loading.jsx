@@ -5,7 +5,7 @@ export const CardLoading = () => {
 
   return (
     <Card sx={{ width: '20vw' }}>
-      <Skeleton variant="rectangular" width={210} height={118} />
+      <Skeleton variant="rectangular" width="100%" height={118} />
       <Box sx={{ p: 1 }}>
         <Skeleton width="60%" />
         <Skeleton />
