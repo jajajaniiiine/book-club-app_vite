@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Modal, Select } from "antd";
+import { Alert, Form, Input, InputNumber, Modal, Select } from "antd";
 import categories from "./categories.json";
 import { AttachMoney } from "@mui/icons-material";
 import BookApi from "../../sdk/books-api";
@@ -11,10 +11,26 @@ export const AddBookForm = (props) => {
     await BookApi.addBook(values)
       .then((res) => {
         if (res.status === 201) {
-          form.resetFields();
+          <Alert
+            message="Successfully added a new book!"
+            type="success"
+            showIcon
+            banner
+          />;
+
+          setTimeout(() => {
+            form.resetFields();
+          }, 300);
         }
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        <Alert
+          message="Something went wrong! Please try again later."
+          type="error"
+          showIcon
+          banner
+        />;
+      });
   };
 
   const onCancel = () => {

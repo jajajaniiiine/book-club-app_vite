@@ -22,6 +22,7 @@ const Home = () => {
     setIsLoading(true);
     await BookApi.getAllBooks()
       .then((response) => {
+        console.log('response', response)
         if (response.status === 200) {
           setDataSource(response.data);
         }
@@ -67,11 +68,11 @@ const Home = () => {
             <Grid container spacing={2}>
               {dataSource.map((data) =>
                 isLoading ? (
-                  <Grid item key={data.uuid}>
+                  <Grid item key={data.uuid} md={3} xs={12}>
                     <CardLoading key={data.uuid} />
                   </Grid>
                 ) : (
-                  <Grid key={data.uuid} item>
+                  <Grid key={data.uuid} item md={3} xs={12}>
                     <BookCard data={data} />
                   </Grid>
                 )

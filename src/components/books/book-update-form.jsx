@@ -9,8 +9,6 @@ import { ArrowBack, Save } from "@mui/icons-material";
 export const UpdateBookForm = (props) => {
   const { data, values, setValues, onSave  } = props;
 
-  console.log(data);
-
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -20,7 +18,6 @@ export const UpdateBookForm = (props) => {
 
   return (
     <>
-      <Button startIcon={<ArrowBack />} variant="outlined" size="large" href="/dashboard">Back</Button>
       <TextField
         fullWidth
         margin="normal"

@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Button, Card, Container, Grid } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import BookApi from "../../../sdk/books-api";
 import { UpdateBookForm } from "../../../components/books/book-update-form";
+import { ArrowBack } from "@mui/icons-material";
 
 const UpdateBook = () => {
   const { bookId } = useParams();
@@ -31,13 +32,15 @@ const UpdateBook = () => {
   }
 
   const handleSubmit = async (id) => {
-    await BookApi.updateBook(id, values).then((res) => {
-      if (res.status === 200) {
-        setBook(res.data);
-      }
-    }).catch(error => {
-      return error;
-    });
+    await BookApi.updateBook(id, values)
+      .then((res) => {
+        if (res.status === 200) {
+          setBook(res.data);
+        }
+      })
+      .catch((error) => {
+        return error;
+      });
   };
 
   return (
@@ -50,12 +53,28 @@ const UpdateBook = () => {
           py: 6,
         }}
       >
-        <UpdateBookForm
-          data={book}
-          values={values}
-          setValues={setValues}
-          onSave={handleSubmit}
-        />
+        <Container maxWidth="lg">
+          <Card sx={{ p: 2 }}>
+            <Box sx={{ mb: 2 }}>
+              <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                  startIcon={<ArrowBack />}
+                  variant="outlined"
+                  size="large"
+                  href="/dashboard"
+                >
+                  Back
+                </Button>
+              </Grid>
+            </Box>
+            <UpdateBookForm
+              data={book}
+              values={values}
+              setValues={setValues}
+              onSave={handleSubmit}
+            />
+          </Card>
+        </Container>
       </Box>
     </>
   );
