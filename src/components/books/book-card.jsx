@@ -17,7 +17,7 @@ export const BookCard = (props) => {
   const { data } = props;
 
   return (
-    <Card sx={{ height: '52.5vh'}}>
+    <Card>
       <CardMedia
         component="img"
         height="194"

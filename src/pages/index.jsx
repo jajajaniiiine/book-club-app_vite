@@ -1,14 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { BookCard } from "../components/books/book-card";
-import { Add } from "@mui/icons-material";
 import { AddBookForm } from "../components/books/book-add-form";
 import BookApi from "../sdk/books-api";
 import { CardLoading } from "../components/loading";
@@ -22,7 +15,6 @@ const Home = () => {
     setIsLoading(true);
     await BookApi.getAllBooks()
       .then((response) => {
-        console.log('response', response)
         if (response.status === 200) {
           setDataSource(response.data);
         }
@@ -51,16 +43,7 @@ const Home = () => {
               <Grid item>
                 <Typography variant="h4">Welcome!</Typography>
               </Grid>
-              <Grid item sx={{ display: "flex", alignItems: "center" }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  startIcon={<Add />}
-                  onClick={() => setOpenAddForm(true)}
-                >
-                  Add New Book
-                </Button>
-              </Grid>
+              <Grid item sx={{ display: "flex", alignItems: "center" }}></Grid>
             </Grid>
           </Box>
 
