@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import { AddShoppingCart, Edit, Favorite } from "@mui/icons-material";
 import numeral from "numeral";
+import { Link } from "react-router-dom";
 
 export const BookCard = (props) => {
-  const { data, getSingleBook } = props;
+  const { data } = props;
 
   return (
     <Card>
@@ -32,8 +33,12 @@ export const BookCard = (props) => {
             <IconButton>
               <AddShoppingCart />
             </IconButton>
-            <IconButton onClick={() => getSingleBook(data._id)}>
-              <Edit />
+            <IconButton>
+              <Link to={{
+                pathname: `/books/edit/${data.bookId}`,
+              }}>
+                <Edit />
+              </Link>
             </IconButton>
           </Stack>
         </Box>
@@ -57,7 +62,7 @@ export const BookCard = (props) => {
           Category:
           {data &&
             data.category.map((category, index) => (
-              <Chip key={index} label={category.label} />
+              <Chip key={index} label={category.label ? category.label : category } />
             ))}
         </Typography>
         <Typography sx={{ fontSize: 14 }}>

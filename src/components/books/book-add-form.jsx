@@ -1,114 +1,128 @@
-import { Autocomplete, Button, Stack, TextField } from "@mui/material";
+import { Alert, Form, Input, InputNumber, Modal, Select } from "antd";
 import categories from "./categories.json";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import { AttachMoney } from "@mui/icons-material";
 import BookApi from "../../sdk/books-api";
 
-export const AddBookForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      category: [],
-      author: "",
-      description: "",
-      price: 0,
-    },
-    validationSchema: Yup.object({
-      title: Yup.string().required("Title is required"),
-      category: Yup.array().required("Category is required"),
-      author: Yup.string().required("Author is required"),
-      description: Yup.string(),
-      price: Yup.number().required("Price is required"),
-    }),
-    onSubmit: async (values) => {
-      try {
-        await BookApi.addBook(values).then(result => {
-          console.log(result);
-          if (result.status === 201) {
-            formik.resetForm();
-          }
-        }).catch(error => { 
-          console.log(error);
-        })
-      } catch (error) {
-        return error
-      }
-    },
-  });
+export const AddBookForm = (props) => {
+  const { open, setOpenAddForm } = props;
+  const [form] = Form.useForm();
+
+  const onCreate = async (values) => {
+    await BookApi.addBook(values)
+      .then((res) => {
+        if (res.status === 201) {
+          <Alert
+            message="Successfully added a new book!"
+            type="success"
+            showIcon
+            banner
+          />;
+
+          setTimeout(() => {
+            form.resetFields();
+          }, 300);
+        }
+      })
+      .catch(() => {
+        <Alert
+          message="Something went wrong! Please try again later."
+          type="error"
+          showIcon
+          banner
+        />;
+      });
+  };
+
+  const onCancel = () => {
+    form.resetFields();
+    setOpenAddForm(false);
+  };
+
   return (
-    <form onSubmit={formik.handleSubmit} autoComplete="off" noValidate>
-      <TextField
-        fullWidth
-        margin="normal"
-        label="Title"
-        onChange={formik.handleChange}
-        error={Boolean(formik.errors.title) && formik.touched.title}
-        onBlur={formik.handleBlur}
-        helperText={formik.errors.title}
-        name="title"
-      />
-      <TextField
-        multiline
-        fullWidth
-        margin="normal"
-        label="Book Description"
-        onChange={formik.handleChange}
-        name="description"
-        error={Boolean(formik.errors.description) && formik.touched.description}
-        onBlur={formik.handleBlur}
-        helperText={formik.errors.description}
-      />
-      <TextField
-        fullWidth
-        margin="normal"
-        label="Author"
-        onChange={formik.handleChange}
-        error={Boolean(formik.errors.author) && formik.touched.author}
-        onBlur={formik.handleBlur}
-        name="author"
-        helperText={formik.errors.author}
-      />
-      <Autocomplete
-        multiple
-        options={categories}
-        getOptionLabel={(option) => option.label}
-        name="category"
-        onChange={(e, newValue) => {
-          if (newValue.length > 0) {
-            formik.setFieldValue("category", newValue);
-          } else {
-            formik.setFieldValue("category", []);
-          }
-        }}
-        onBlur={formik.handleBlur}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Select category"
-            margin="normal"
-            error={Boolean(formik.errors.category) && formik.touched.category}
-            helperText={formik.errors.category}
+    <Modal
+      open={open}
+      title="Create a new collection"
+      okText="Create"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            onCreate(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form form={form} layout="vertical" size="large">
+        <Form.Item
+          name="title"
+          label="Title"
+          rules={[
+            {
+              required: true,
+              message: "Title of the book is required.",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item name="description" label="Description">
+          <Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
+        </Form.Item>
+        <Form.Item
+          name="author"
+          label="Author"
+          rules={[
+            {
+              required: true,
+              message: "Author of the book is required.",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="category"
+          label="Select book category"
+          rules={[
+            {
+              required: true,
+              message: "Category of the book is required.",
+            },
+          ]}
+        >
+          <Select mode="tags">
+            {categories.map((category) => (
+              <Select.Option key={category.value} value={category.value}>
+                {category.label}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="price"
+          label="Price"
+          rules={[
+            {
+              required: true,
+              message: "Price of the book is required.",
+            },
+          ]}
+        >
+          <InputNumber
+            style={{ width: "100%" }}
+            addonBefore={<AttachMoney />}
+            addonAfter=".00"
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={(value) => value?.replace(/\$\s?|(,*)/g, "")}
           />
-        )}
-      />
-      <TextField
-        fullWidth
-        margin="normal"
-        label="Price"
-        onChange={formik.handleChange}
-        error={Boolean(formik.errors.price) && formik.touched.price}
-        onBlur={formik.handleBlur}
-        helperText={formik.errors.price}
-        name="price"
-      />
-      <Stack direction="row-reverse" spacing={1}>
-        <Button variant="contained" type="submit">
-          Submit
-        </Button>
-        <Button variant="outlined" type="reset">
-          Reset
-        </Button>
-      </Stack>
-    </form>
+        </Form.Item>
+      </Form>
+    </Modal>
   );
 };

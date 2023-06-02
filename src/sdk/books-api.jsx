@@ -36,7 +36,7 @@ async function addBook(values) {
 async function updateBook(bookId, values) {
   return await axios
     .patch(
-      `${import.meta.env.VITE_LOCALHOST_API}/books/update/${bookId}`,
+      `${import.meta.env.VITE_LOCALHOST_API}/books/${bookId}`,
       values
     )
     .then((response) => {
